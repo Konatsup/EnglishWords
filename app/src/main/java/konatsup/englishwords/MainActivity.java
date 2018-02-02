@@ -15,6 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -22,8 +25,10 @@ public class MainActivity extends Activity {
 
     private Realm realm;
     ListView listView;
-    ArrayAdapter adapter; //後々CustomAdapterにする必要あり
+//    ArrayAdapter adapter; //後々CustomAdapterにする必要あり
 
+    List<Word> words;
+    WordAdapter wordAdapter;
     EditText enEditText;
     EditText jpEditText;
 
@@ -35,20 +40,25 @@ public class MainActivity extends Activity {
         sendNotification();
 
         listView = (ListView)findViewById(R.id.listView);
-//        adapter = new ArrayAdapter<Word>(this,android.R.layout.simple_expandable_list_item_1);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
+        words = new ArrayList<Word>();
+
+        words.add(new Word(1,0,"strawberry","いちご","2018-01-01-12-00-00"));
+//        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
+
 
         enEditText = (EditText)findViewById(R.id.enEditText);
         jpEditText = (EditText)findViewById(R.id.jpEditText);
 
 
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
-        Realm.setDefaultConfiguration(config);
+//        Realm.init(this);
+//        RealmConfiguration config = new RealmConfiguration.Builder().build();
+//        Realm.setDefaultConfiguration(config);
 
 
+        wordAdapter = new WordAdapter(this,R.layout.word,words);
+        listView.setAdapter(wordAdapter);
 
-        listView.setAdapter(adapter);
+        sendNotification();
 
 
     }
@@ -80,8 +90,9 @@ public class MainActivity extends Activity {
         String enText,jpText;
         enText = enEditText.getText().toString();
         jpText = jpEditText.getText().toString();
-        adapter.add(enText+"："+jpText);
-
+        wordAdapter.add(new Word(1,0,enText,jpText,"2018-01-01-12-00-00"));
+        enEditText.setText("");
+        jpEditText.setText("");
     }
 
 }
