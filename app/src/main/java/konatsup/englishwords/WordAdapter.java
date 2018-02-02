@@ -1,6 +1,7 @@
 package konatsup.englishwords;
 
 
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -10,16 +11,22 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class WordAdapter extends ArrayAdapter<Word>{
-    List<Word> mWords;
-    public WordAdapter(Context context, int layoutResourceId, List<Word> objects){
-        super(context, layoutResourceId, objects);
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmResults;
 
-        mWords = objects;
+//public class WordAdapter extends ArrayAdapter<Word>{
+public class WordAdapter extends RealmBaseAdapter<Word> implements ListAdapter{
+
+
+//    public WordAdapter(Context context, RealmResults<Word> realmResults){
+    public WordAdapter(OrderedRealmCollection<Word> realmResults){
+        super(realmResults);
     }
 
     public static class ViewHolder{
@@ -40,16 +47,17 @@ public class WordAdapter extends ArrayAdapter<Word>{
 
         // Viewを再利用している場合は新たにViewを作らない
         if (convertView == null) {
-            convertView =  LayoutInflater.from(getContext()).inflate(R.layout.word, null);
+            convertView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.word, parent,false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Word item = getItem(position);
+        if(adapterData != null){
+        final Word item = adapterData.get(position);
 
-        if(item != null){
+//        if(item != null){
 
             viewHolder.enTextView.setText(item.en_word);
             viewHolder.jpTextView.setText(item.jp_word);

@@ -22,6 +22,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class MainActivity extends Activity {
 
@@ -44,21 +45,24 @@ public class MainActivity extends Activity {
         listView = (ListView)findViewById(R.id.listView);
         words = new ArrayList<Word>();
 
-        words.add(new Word(1,0,"strawberry","いちご","2018-01-01-12-00-00"));
+//        words.add(new Word(1,0,"strawberry","いちご","2018-01-01-12-00-00"));
 //        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
-
 
         enEditText = (EditText)findViewById(R.id.enEditText);
         jpEditText = (EditText)findViewById(R.id.jpEditText);
 
 
-//        Realm.init(this);
-//        RealmConfiguration config = new RealmConfiguration.Builder().build();
-//        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
 
+        RealmResults<Word> result = realm.where(Word.class).findAll();
 
-        wordAdapter = new WordAdapter(this,R.layout.word,words);
+        wordAdapter = new WordAdapter(result);
         listView.setAdapter(wordAdapter);
+
+//        realm.beginTransaction();
+//        realm.copyToRealm(word);
+////        realm.copyToRealmOrUpdate(word);
+//        realm.commitTransaction();
 
         sendNotification();
 
@@ -94,7 +98,18 @@ public class MainActivity extends Activity {
         jpText = jpEditText.getText().toString();
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
         String dateText  = android.text.format.DateFormat.format("yyyy-MM-dd-kk-mm-ss", Calendar.getInstance()).toString();
-        wordAdapter.add(new Word(1,0,enText,jpText,dateText));
+//        wordAdapter.add(new Word(1,0,enText,jpText,dateText));
+
+        Word word = new Word();
+        word.setId(1);
+        word.setLevel(0);
+        word.setEn_word(enText);
+        word.setJp_word(jpText);
+        word.setCreatedAt(dateText);
+        realm.beginTransaction();
+        realm.copyToRealm(word);
+        realm.commitTransaction();
+
         enEditText.setText("");
         jpEditText.setText("");
     }

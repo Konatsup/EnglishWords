@@ -6,8 +6,8 @@ package konatsup.englishwords;
 import io.realm.RealmObject;
 
 
-//public class Word extends RealmObject{
-public class Word{
+public class Word extends RealmObject{
+//public class Word{
 //    @PrimaryKey
     int id;
     int level; //復習レベル
@@ -15,13 +15,13 @@ public class Word{
     String jp_word; //日本語約
     String createdAt; //
 
-    Word(int id,int l, String ew, String jw, String c){
-        this.id = id;
-        this.level = l;
-        this.en_word = ew;
-        this.jp_word = jw;
-        this.createdAt = c;
-    }
+//    public Word(int id,int l, String ew, String jw, String c){
+//        this.id = id;
+//        this.level = l;
+//        this.en_word = ew;
+//        this.jp_word = jw;
+//        this.createdAt = c;
+//    }
 
 
     public int getId(){return id;}
