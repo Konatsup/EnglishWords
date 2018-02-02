@@ -15,7 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
@@ -90,7 +92,9 @@ public class MainActivity extends Activity {
         String enText,jpText;
         enText = enEditText.getText().toString();
         jpText = jpEditText.getText().toString();
-        wordAdapter.add(new Word(1,0,enText,jpText,"2018-01-01-12-00-00"));
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        String dateText  = android.text.format.DateFormat.format("yyyy-MM-dd-kk-mm-ss", Calendar.getInstance()).toString();
+        wordAdapter.add(new Word(1,0,enText,dateText,dateText));
         enEditText.setText("");
         jpEditText.setText("");
     }
