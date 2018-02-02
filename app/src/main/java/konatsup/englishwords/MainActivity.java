@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
         jpText = jpEditText.getText().toString();
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
         String dateText  = android.text.format.DateFormat.format("yyyy-MM-dd-kk-mm-ss", Calendar.getInstance()).toString();
-        wordAdapter.add(new Word(1,0,enText,dateText,dateText));
+        wordAdapter.add(new Word(1,0,enText,jpText,dateText));
         enEditText.setText("");
         jpEditText.setText("");
     }
