@@ -10,14 +10,55 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends Activity {
+
+    private Realm realm;
+    ListView listView;
+    ArrayAdapter adapter; //後々CustomAdapterにする必要あり
+
+    EditText enEditText;
+    EditText jpEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        sendNotification();
+
+        listView = (ListView)findViewById(R.id.listView);
+//        adapter = new ArrayAdapter<Word>(this,android.R.layout.simple_expandable_list_item_1);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
+
+        enEditText = (EditText)findViewById(R.id.enEditText);
+        jpEditText = (EditText)findViewById(R.id.jpEditText);
+
+
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(config);
+
+
+
+        listView.setAdapter(adapter);
+
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    public void sendNotification(){
         Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -33,7 +74,13 @@ public class MainActivity extends Activity {
                 .build();
 
         manager.notify(0, notification);
+    }
 
+    public void add(View v){
+        String enText,jpText;
+        enText = enEditText.getText().toString();
+        jpText = jpEditText.getText().toString();
+        adapter.add(enText+"："+jpText);
 
     }
 
