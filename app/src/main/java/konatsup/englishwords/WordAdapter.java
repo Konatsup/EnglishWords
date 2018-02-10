@@ -1,30 +1,18 @@
 package konatsup.englishwords;
 
 
-import android.content.ClipData;
-import android.content.Context;
-import android.graphics.Color;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
-import io.realm.RealmResults;
 
-//public class WordAdapter extends ArrayAdapter<Word>{
 public class WordAdapter extends RealmBaseAdapter<Word> implements ListAdapter{
 
 
-//    public WordAdapter(Context context, RealmResults<Word> realmResults){
     public WordAdapter(OrderedRealmCollection<Word> realmResults){
         super(realmResults);
     }
@@ -57,8 +45,6 @@ public class WordAdapter extends RealmBaseAdapter<Word> implements ListAdapter{
         if(adapterData != null){
         final Word item = adapterData.get(position);
 
-//        if(item != null){
-
             viewHolder.enTextView.setText(item.en_word);
             viewHolder.jpTextView.setText(item.jp_word);
             viewHolder.enTextView.setOnClickListener(new View.OnClickListener(){
@@ -82,31 +68,7 @@ public class WordAdapter extends RealmBaseAdapter<Word> implements ListAdapter{
                 }
             });
         }
-//        // 特定の行のデータを取得
-//        String str = getItem(position);
-//
-//        if (!TextUtils.isEmpty(str)) {
-//            // テキストビューにラベルをセット
-//            holder.labelText.setText(str);
-//        }
-//
-//        // 行毎に背景色を変える
-//        if(position%2==0){
-//            holder.labelText.setBackgroundColor(Color.parseColor("#aa0000"));
-//        }else{
-//            holder.labelText.setBackgroundColor(Color.parseColor("#880000"));
-//        }
-//
-//        // XMLで定義したアニメーションを読み込む
-//        Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.item_motion);
-//        // リストアイテムのアニメーションを開始
-//        view.startAnimation(anim);
         return convertView;
     }
-//    @Override
-//    public int getCount(){
-//        return mWords.size();
-//    }
-
 
 }

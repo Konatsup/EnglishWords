@@ -7,7 +7,6 @@ import io.realm.RealmObject;
 
 
 public class Word extends RealmObject{
-//public class Word{
 //    @PrimaryKey
     int id;
     int level; //復習レベル
